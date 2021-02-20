@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-var fs = store.NewFileStore("kv-store", ".fileStorey")
+var fs = store.NewFileStore("kv-store", ".fileStore")
 //var ms = store.NewInMemoryStore("kv-store")
 
 func handleSet(w http.ResponseWriter, r *http.Request){

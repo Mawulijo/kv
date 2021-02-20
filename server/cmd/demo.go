@@ -42,3 +42,6 @@ func main() {
 //curl http://localhost:1024/kv/v1/store/set\?key\=D\&val\=55 // query-based request
 
 //curl http://localhost:1024/kv/v1/store/set/A/11 // path-based request
+
+
+//A RESTful API for a key-value datastore and a CLI clientgit push origin ––delete old-name

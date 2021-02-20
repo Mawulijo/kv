@@ -19,3 +19,4 @@ server/.fileStore
 client/cmd/
 client/kv.exe
 client/kv
+.idea/
