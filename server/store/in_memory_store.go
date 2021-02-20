@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func NewMemoryStore(storeID string) *MemoryStore {
+func NewInMemoryStore(storeID string) *MemoryStore {
 	return &MemoryStore{
 		storeID: storeID,
 		keyValues: make(map[string]string),
@@ -17,6 +17,11 @@ type MemoryStore struct {
 	keyValues map[string]string
 }
 
+func (ms *MemoryStore) Set(key, value string) error {
+	ms.keyValues[key] = value
+	return nil
+}
+
 func (ms *MemoryStore) Get(key string) (string, error) {
 	ret, ok := ms.keyValues[key]
 	if !ok {
@@ -25,12 +30,7 @@ func (ms *MemoryStore) Get(key string) (string, error) {
 	return ret, nil
 }
 
-func (ms *MemoryStore) Set(key, value string) error {
-	ms.keyValues[key] = value
-	return nil
-}
-
 func (ms *MemoryStore) Delete(key string) error {
-	ms.keyValues[key] = ""
+	delete(ms.keyValues, ms.keyValues[key])
 	return nil
 }

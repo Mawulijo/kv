@@ -1,10 +1,9 @@
 package store
 
-
 import (
 	"encoding/json"
 	"errors"
-"fmt"
+	"fmt"
 	"os"
 	"strings"
 	"sync"
@@ -14,7 +13,6 @@ func NewFileStore(storeID, filePath string) *FileStore {
 	return &FileStore{
 		storeID: storeID,
 		filepath: filePath,
-		//keyValues: make(map[string]string),
 	}
 }
 
@@ -39,7 +37,6 @@ func (fs *FileStore) loadKeyValues() error {
 	}
 	return nil
 }
-
 
 func (fs *FileStore) saveKeyValues() error {
 	var sb strings.Builder
@@ -91,6 +88,12 @@ func (fs *FileStore) Set(key, value string) error {
 }
 
 func (fs *FileStore) Delete(key string) error {
-	fs.keyValues[key] = ""
+	fs.mutex.Lock()
+	defer fs.mutex.Unlock()
+	err := fs.loadKeyValues()
+	if err != nil {
+		return err
+	}
+	delete(fs.keyValues, fs.keyValues[key])
 	return nil
 }

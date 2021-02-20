@@ -5,8 +5,8 @@ import (
 	"kv/store"
 )
 
-func fileStore()  {
-	fs := store.NewFileStore("my-fake-store-ID", ".fileStore")
+func fileStore() {
+	fs := store.NewFileStore("my-fake-store-ID", ".fileStorey")
 	err := fs.Set("demo_key", "This is my value from file")
 	if err != nil {
 		panic(err)
@@ -18,8 +18,8 @@ func fileStore()  {
 	fmt.Println("MS Value:", value)
 }
 
-func memoryStore()  {
-	ms := store.NewMemoryStore("my-fake-store-ID")
+func memoryStore() {
+	ms := store.NewInMemoryStore("my-fake-store-ID")
 	err := ms.Set("demo_key", "This is my value from memory")
 	if err != nil {
 		panic(err)
@@ -29,9 +29,16 @@ func memoryStore()  {
 		panic(err)
 	}
 	fmt.Println("FS Value:", value)
+	_ = ms.Delete("demo_key")
+	fmt.Println("FS Value:", value)
 }
 
-func main(){
+func main() {
+	//fileStore()
 	memoryStore()
-	fileStore()
 }
+
+
+//curl http://localhost:1024/kv/v1/store/set\?key\=D\&val\=55 // query-based request
+
+//curl http://localhost:1024/kv/v1/store/set/A/11 // path-based request
