@@ -34,7 +34,7 @@ func memoryStore() {
 }
 
 func main() {
-	//fileStore()
+	fileStore()
 	memoryStore()
 }
 
