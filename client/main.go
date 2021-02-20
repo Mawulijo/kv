@@ -17,13 +17,12 @@ func getPing(pingUrl string) *grequests.Response {
 }
 
 func setKeyValue(setUrl string, args []string) *grequests.Response {
-	resp, err := grequests.Get(fmt.Sprintf("%s/%s/%s",setUrl, args[0], args[1]), nil)
+	resp, err := grequests.Post(fmt.Sprintf("%s/%s/%s",setUrl, args[0], args[1]), nil)
 	if err != nil {
 		log.Println("Could not create record")
 	}
 	return resp
 }
-
 func getValue(getUrl string, args []string) *grequests.Response {
 	resp, err := grequests.Get(fmt.Sprintf("%s/%s",getUrl, args[0]), nil)
 	if err != nil {
