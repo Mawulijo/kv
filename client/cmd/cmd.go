@@ -29,16 +29,16 @@ func SetKeyValue(setUrl string, args []string) *grequests.Response {
 	}
 	return resp
 }
-func GetValue(getUrl string, args []string) *grequests.Response {
-	resp, err := grequests.Get(fmt.Sprintf("%s/%s", getUrl, args[0]), nil)
+func GetValue(getUrl string, args string) *grequests.Response {
+	resp, err := grequests.Get(fmt.Sprintf("%s/%s", getUrl, args), nil)
 	if err != nil {
 		log.Println("Could not get record")
 	}
 	return resp
 }
 
-func DelKeyValue(delUrl string, args []string) *grequests.Response {
-	resp, err := grequests.Post(fmt.Sprintf("%s/%s", delUrl, args[0]), nil)
+func DelKeyValue(delUrl string, args string) *grequests.Response {
+	resp, err := grequests.Post(fmt.Sprintf("%s/%s", delUrl, args), nil)
 	if err != nil {
 		log.Println("Could not delete record")
 	}
