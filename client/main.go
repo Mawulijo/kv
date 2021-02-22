@@ -7,45 +7,35 @@ import (
 	"kv/cmd"
 	"log"
 	"os"
-	"os/exec"
 	"strings"
 )
 
 func runCommand(cmdString string) error {
-	//app := cli.NewApp()
+	baseUrl := "http://localhost:1024/v1/kv"
 	cmdString = strings.TrimSuffix(cmdString, "\n")
 	arrCmdString := strings.Fields(cmdString)
 
 	switch arrCmdString[0] {
-	//used ring because ping already exists OS
+	//used ring because ping already exists in OS
 	case "ring", "r":
 		{
-			var pingUrl = "http://localhost:1024/kv/v1/store/ping"
-			resp := cmd.GetPing(pingUrl)
+			resp := cmd.GetPing(baseUrl)
 			log.Println(resp)
-
-			cmd := exec.Command(arrCmdString[0], arrCmdString[1:]...)
-			cmd.Stderr = os.Stderr
-			cmd.Stdout = os.Stdout
-			return cmd.Run()
 		}
 	case "set", "s":
 		{
 			args := []string{arrCmdString[1], arrCmdString[2]}
-			var setUrl = "http://localhost:1024/kv/v1/store/set"
-			resp := cmd.SetKeyValue(setUrl, args)
+			resp := cmd.SetKeyValue(baseUrl, args)
 			log.Println(resp.String())
 		}
 	case "get", "g":
 		{
-			var getUrl = "http://localhost:1024/kv/v1/store/get"
-			resp := cmd.GetValue(getUrl, arrCmdString[1])
+			resp := cmd.GetValue(baseUrl, arrCmdString[1])
 			log.Println(resp.String())
 		}
 	case "delete", "d":
 		{
-			var detUrl = "http://localhost:1024/kv/v1/store/delete"
-			resp := cmd.DelKeyValue(detUrl, arrCmdString[1])
+			resp := cmd.DelKeyValue(baseUrl, arrCmdString[1])
 			log.Println(resp.String())
 		}
 	case "help", "h":
@@ -68,7 +58,7 @@ func main() {
 
 	reader := bufio.NewReader(os.Stdin)
 	for {
-		fmt.Print("> ")
+		fmt.Print("KV > ")
 		cmdString, err := reader.ReadString('\n')
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)

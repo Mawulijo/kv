@@ -11,6 +11,7 @@ import (
 var fs = store.NewFileStore("kv-store", ".fileStore")
 //var ms = store.NewInMemoryStore("kv-store")
 
+
 func handleSet(w http.ResponseWriter, r *http.Request){
 	w.WriteHeader(http.StatusOK)
 	//queryParams := r.URL.Query() // query-based matching
@@ -50,12 +51,13 @@ func handlePing(w http.ResponseWriter, r *http.Request) {
 }
 
 func main(){
+
 	r := mux.NewRouter()
-	r.HandleFunc("/kv/v1/store/ping", handlePing)
-	r.HandleFunc("/kv/v1/store/set/{key:[A-Za-z]+}/{val:[0-9]+}", handleSet) // path-based matching
-	//r.HandleFunc("/kv/v1/store/set", handleSet) // query-based matching
-	r.HandleFunc("/kv/v1/store/get/{key:[A-Za-z]+}", handleGet).Methods("GET")
-	r.HandleFunc("/kv/v1/store/delete/{key:[A-Za-z]+}", handleDelete).Methods("POST").Name("deleteRecord")
+	r.HandleFunc("/v1/kv", handlePing)
+	r.HandleFunc("/v1/kv/{key:[A-Za-z]+}/{val:[0-9]+}", handleSet) // path-based matching
+	//r.HandleFunc("/v1/kv/, handleSet) // query-based matching
+	r.HandleFunc("/v1/kv/{key:[A-Za-z]+}", handleGet).Methods("GET")
+	r.HandleFunc("/v1/kv/{key:[A-Za-z]+}", handleDelete).Methods("POST").Name("deleteRecord")
 	fmt.Println("kv is starting")
 	fmt.Println("Ready to accept connections")
 	log.Fatal(http.ListenAndServe(":1024", r))

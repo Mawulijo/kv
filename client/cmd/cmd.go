@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func GetConn(connUrl string, args []string) *grequests.Response {
+func GetConn(baseURL string, args []string) *grequests.Response {
 	resp, err := grequests.Post(fmt.Sprintf("%s/%s", connUrl, args[0]), nil)
 	if err != nil {
 		log.Println("Could not connect to kv server")
@@ -14,31 +14,31 @@ func GetConn(connUrl string, args []string) *grequests.Response {
 	return resp
 }
 
-func GetPing(pingUrl string) *grequests.Response {
-	resp, err := grequests.Get(pingUrl, nil)
+func GetPing(baseUrl string) *grequests.Response {
+	resp, err := grequests.Get(baseUrl, nil)
 	if err != nil {
 		log.Fatalln("Unable to make request: ", err)
 	}
 	return resp
 }
 
-func SetKeyValue(setUrl string, args []string) *grequests.Response {
-	resp, err := grequests.Post(fmt.Sprintf("%s/%s/%s", setUrl, args[0], args[1]), nil)
+func SetKeyValue(baseUrl string, args []string) *grequests.Response {
+	resp, err := grequests.Post(fmt.Sprintf("%s/%s/%s", baseUrl, args[0], args[1]), nil)
 	if err != nil {
 		log.Println("Could not create record")
 	}
 	return resp
 }
-func GetValue(getUrl string, args string) *grequests.Response {
-	resp, err := grequests.Get(fmt.Sprintf("%s/%s", getUrl, args), nil)
+func GetValue(baseUrl string, args string) *grequests.Response {
+	resp, err := grequests.Get(fmt.Sprintf("%s/%s", baseUrl, args), nil)
 	if err != nil {
 		log.Println("Could not get record")
 	}
 	return resp
 }
 
-func DelKeyValue(delUrl string, args string) *grequests.Response {
-	resp, err := grequests.Post(fmt.Sprintf("%s/%s", delUrl, args), nil)
+func DelKeyValue(baseUrl string, args string) *grequests.Response {
+	resp, err := grequests.Post(fmt.Sprintf("%s/%s", baseUrl, args), nil)
 	if err != nil {
 		log.Println("Could not delete record")
 	}
