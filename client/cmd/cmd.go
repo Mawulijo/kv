@@ -36,6 +36,21 @@ func GetValue(baseUrl string, args string) *grequests.Response {
 	}
 	return resp
 }
+func GetAllKeys(baseUrl string) *grequests.Response {
+	resp, err := grequests.Get(baseUrl, nil)
+	if err != nil {
+		log.Println("Could not get all records")
+	}
+	return resp
+}
+
+func UpdateKeys(baseUrl string, args []string) *grequests.Response {
+	resp, err := grequests.Get(fmt.Sprintf("%s/%s/%s", baseUrl, args[0], args[1]), nil)
+	if err != nil {
+		log.Println("Could not update record")
+	}
+	return resp
+}
 
 func DelKeyValue(baseUrl string, args string) *grequests.Response {
 	resp, err := grequests.Post(fmt.Sprintf("%s/%s", baseUrl, args), nil)
@@ -44,4 +59,3 @@ func DelKeyValue(baseUrl string, args string) *grequests.Response {
 	}
 	return resp
 }
-
