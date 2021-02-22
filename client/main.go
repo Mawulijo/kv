@@ -35,13 +35,13 @@ func runCommand(cmdString string) error {
 		}
 	case "get all", "ga":
 		{
-			resp := cmd.GetValue(baseUrl)
+			resp := cmd.GetAllKeys(baseUrl)
 			log.Println(resp.String())
 		}
 	case "update", "u":
 		{
 			args := []string{arrCmdString[1], arrCmdString[2]}
-			resp := cmd.GetValue(baseUrl, args)
+			resp := cmd.UpdateKeys(baseUrl, args)
 			log.Println(resp.String())
 		}
 	case "delete", "d":
