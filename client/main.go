@@ -33,6 +33,17 @@ func runCommand(cmdString string) error {
 			resp := cmd.GetValue(baseUrl, arrCmdString[1])
 			log.Println(resp.String())
 		}
+	case "get all", "ga":
+		{
+			resp := cmd.GetValue(baseUrl)
+			log.Println(resp.String())
+		}
+	case "update", "u":
+		{
+			args := []string{arrCmdString[1], arrCmdString[2]}
+			resp := cmd.GetValue(baseUrl, args)
+			log.Println(resp.String())
+		}
 	case "delete", "d":
 		{
 			resp := cmd.DelKeyValue(baseUrl, arrCmdString[1])
@@ -45,7 +56,7 @@ func runCommand(cmdString string) error {
 				log.Fatal(err)
 			}
 		}
-		case "exit", "q":
+	case "exit", "q":
 		{
 			os.Exit(1)
 		}
