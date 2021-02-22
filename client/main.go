@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"kv/cmd"
 	"log"
 	"os"
@@ -41,35 +42,23 @@ func runCommand(cmdString string) error {
 			resp := cmd.GetValue(getUrl, arrCmdString[1])
 			log.Println(resp.String())
 		}
-		case "delete", "d":
+	case "delete", "d":
 		{
 			var detUrl = "http://localhost:1024/kv/v1/store/delete"
 			resp := cmd.DelKeyValue(detUrl, arrCmdString[1])
 			log.Println(resp.String())
 		}
-	case "--help", "-h":
+	case "help", "h":
 		{
-			fmt.Println(`
-NAME:
-kv - A Key-Value datastore CLI application
-			
-USAGE:
-kv [global options] command [command options] [arguments...]
-			
-VERSION:
-1.0
-			
-COMMANDS:
-ping, p     Test if server connection is alive.
-set, s      Sets a value for a given key. [Usage]: set A 42
-get, g      Gets a value for a given key. [Usage]: get A
-delete, d   Deletes a record from the store. [Usage]: delete A
-help, h     Shows a list of commands or help for one command
-			
-GLOBAL OPTIONS:
--- connect, -c    connect to kv server
---help, -h     show help
---version, -v  print the version`)}
+			fd, _ := os.Open("helpFile")
+			if _, err := io.Copy(os.Stdout, fd); err != nil {
+				log.Fatal(err)
+			}
+		}
+		case "exit", "q":
+		{
+			os.Exit(1)
+		}
 
 	}
 	return nil
