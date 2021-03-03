@@ -61,6 +61,9 @@ func runCommand(cmdString string) error {
 			os.Exit(1)
 		}
 
+	default: {
+		log.Println("Invalid Command")
+	}
 	}
 	return nil
 }
