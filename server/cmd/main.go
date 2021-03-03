@@ -1,8 +1,10 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"github.com/gorilla/mux"
+	config "kv"
 	"kv/store"
 	"log"
 	"net/http"
@@ -72,6 +74,11 @@ func handlePing(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
+	boolPtr := flag.Bool("port", false, "Provide this flag to connect to kv server. This ensures that a .config file is provided before the application starts.")
+	flag.Parse()
+
+	cfg := config.LoadConfig(*boolPtr)
+
 	r := mux.NewRouter()
 	r.HandleFunc("/v1/kv", handlePing)
 	r.HandleFunc("/v1/kv/{key:[A-Za-z]+}/{val:[A-Za-z0-9]+}/set", handleSet).Methods("POST")
@@ -79,7 +86,7 @@ func main() {
 	r.HandleFunc("/v1/kv/{key:[A-Za-z]+}/get", handleGet).Methods("GET")
 	r.HandleFunc("/v1/kv/all", handleGetAll).Methods("GET")
 	r.HandleFunc("/v1/kv/{key:[A-Za-z]+}/delete", handleDelete).Methods("POST").Name("deleteRecord")
-	fmt.Println("kv is starting")
+	fmt.Println(fmt.Sprintf("kv is starting on port: %d", cfg.Port))
 	fmt.Println("Ready to accept connections")
-	log.Fatal(http.ListenAndServe(":1024", r))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", cfg.Port), r))
 }
