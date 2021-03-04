@@ -74,7 +74,7 @@ func handlePing(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
-	boolPtr := flag.Bool("port", false, "Provide this flag to connect to kv server. This ensures that a .config file is provided before the application starts.")
+	boolPtr := flag.Bool("port", false, "Provide this flag to use the intended/prod port. This ensures that a .config file is provided before the application starts.")
 	flag.Parse()
 
 	cfg := config.LoadConfig(*boolPtr)
