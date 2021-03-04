@@ -81,7 +81,7 @@ func main() {
 		fmt.Println("Invalid Server Address")
 		return
 	}
-
+	fmt.Println("Connected to 127.0.0.1")
 	for {
 		fmt.Print("KV > ")
 		cmdString, err := reader.ReadString('\n')
