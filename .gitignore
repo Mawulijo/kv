@@ -13,3 +13,9 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+server/cmd/demo.go
+server/.fileStore
+client/kv.exe
+client/kv
+.idea/
