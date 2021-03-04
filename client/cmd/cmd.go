@@ -6,13 +6,6 @@ import (
 	"log"
 )
 
-func GetConn(baseURL string, args []string) *grequests.Response {
-	resp, err := grequests.Post(fmt.Sprintf("%s/%s", baseURL, args[0]), nil)
-	if err != nil {
-		log.Println("Could not connect to kv server")
-	}
-	return resp
-}
 
 func GetPing(baseUrl string) *grequests.Response {
 	resp, err := grequests.Get(baseUrl, nil)
@@ -53,7 +46,7 @@ func UpdateKeys(baseUrl string, args []string) *grequests.Response {
 }
 
 func DelKeyValue(baseUrl string, args string) *grequests.Response {
-	resp, err := grequests.Post(fmt.Sprintf("%s/%s/delete", baseUrl, args), nil)
+	resp, err := grequests.Delete(fmt.Sprintf("%s/%s/delete", baseUrl, args), nil)
 	if err != nil {
 		log.Println("Could not delete record")
 	}
