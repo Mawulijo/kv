@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"io"
 	"kv/cmd"
@@ -10,8 +11,8 @@ import (
 	"strings"
 )
 
-func runCommand(cmdString string) error {
-	baseUrl := "http://localhost:1024/v1/kv"
+func runCommand(cmdString, addr string) error {
+	baseUrl := fmt.Sprintf("http://%s:1024/v1/kv", addr)
 	cmdString = strings.TrimSuffix(cmdString, "\n")
 	arrCmdString := strings.Fields(cmdString)
 
@@ -61,23 +62,35 @@ func runCommand(cmdString string) error {
 			os.Exit(1)
 		}
 
-	default: {
-		log.Println("Invalid Command")
-	}
+	default:
+		{
+			log.Println("Unknown Command")
+		}
 	}
 	return nil
 }
 
 func main() {
+	serverAddr := "127.0.0.1"
+	h := flag.String("h", "", "Provide this flag to connect to kv server")
+	flag.Parse()
 
 	reader := bufio.NewReader(os.Stdin)
+
+	if string(*h) != serverAddr {
+		fmt.Println("Invalid Server Address")
+		return
+	}
+
 	for {
 		fmt.Print("KV > ")
 		cmdString, err := reader.ReadString('\n')
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 		}
-		_ = runCommand(cmdString)
+		err = runCommand(cmdString, string(*h))
+		if err != nil {
+			return
+		}
 	}
-
 }
